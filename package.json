@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest - -watch",
+    "test": "jest --watch",
     "prepare": "husky install",
-    "sas": "npm sass sass/styles.scss css/styles.css --watch"
+    "sas": "sass sass/styles.scss css/styles.css --watch"
   },
   "author": "",
   "license": "ISC",
