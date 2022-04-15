@@ -15,3 +15,5 @@ const generateGrid = () => {
   }
   gridContainer.appendChild(grid);
 };
+
+generateGrid();
