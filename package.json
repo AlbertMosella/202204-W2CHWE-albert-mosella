@@ -4,12 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "test": "jest --watch",
+    "prepare": "husky install",
+    "sas": "sass sass/styles.scss css/styles.css --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "husky": "^7.0.0"
+    "@types/jest": "^27.4.1",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^7.0.0",
+    "jest": "^27.5.1",
+    "sass": "^1.50.0"
   }
 }
