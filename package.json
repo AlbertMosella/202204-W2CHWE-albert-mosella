@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --watch",
     "prepare": "husky install",
-    "sas": "sass sass/styles.scss css/styles.css --watch"
+    "sas": "sass sass/styles.scss css/styles.css --watch",
+    "compile-sas": "sass sass/styles.scss css/styles.css"
   },
   "author": "",
   "license": "ISC",
