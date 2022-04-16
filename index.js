@@ -20,64 +20,98 @@ const generateGrid = () => {
 generateGrid();
 
 const gridArray = [];
-const generateMatrix = () => {
+const gridArrayNextFrame = [];
+const generateMatrixes = () => {
   for (let i = 0; i < 20; i++) {
     gridArray[i] = [];
+    gridArrayNextFrame[i] = [];
     for (let j = 0; j < 20; j++) {
-      gridArray[i][j] = document.getElementById(`${i}-${j}`);
+      gridArray[i][j] = false;
+      gridArrayNextFrame[i][j] = false;
     }
   }
-  return gridArray;
 };
-generateMatrix();
+generateMatrixes();
 
 const checkCellsAround = (x, y) => {
   let cellsAroundCondition = 0;
-  if (gridArray[x - 1][y].className === "alive") {
-    cellsAroundCondition++;
+  if (x !== 0 && y !== 0) {
+    if (gridArray[x - 1][y - 1]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x + 1][y].className === "alive") {
-    cellsAroundCondition++;
+  if (x !== 0) {
+    if (gridArray[x - 1][y]) {
+      cellsAroundCondition++;
+    }
+    if (y !== 19) {
+      if (gridArray[x - 1][y + 1]) {
+        cellsAroundCondition++;
+      }
+    }
   }
-  if (gridArray[x - 1][y - 1].className === "alive") {
-    cellsAroundCondition++;
+  if (y !== 0) {
+    if (gridArray[x][y - 1]) {
+      cellsAroundCondition++;
+    }
+    if (x !== 19) {
+      if (gridArray[x + 1][y - 1]) {
+        cellsAroundCondition++;
+      }
+    }
   }
-  if (gridArray[x - 1][y + 1].className === "alive") {
-    cellsAroundCondition++;
+  if (x !== 19) {
+    if (gridArray[x + 1][y]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x][y - 1].className === "alive") {
-    cellsAroundCondition++;
+  if (y !== 19) {
+    if (gridArray[x][y + 1]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x][y + 1].className === "alive") {
-    cellsAroundCondition++;
+  if (x !== 19 && y !== 19) {
+    if (gridArray[x + 1][y + 1]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x + 1][y - 1].className === "alive") {
-    cellsAroundCondition++;
-  }
-  if (gridArray[x + 1][y + 1].className === "alive") {
-    cellsAroundCondition++;
-  }
+
   return cellsAroundCondition;
 };
 
-const mainGameFunction = (aliveCells) => {
+const updateCell = (x, y, aliveCells) => {
+  if (gridArray[x][y] && (aliveCells === 2 || aliveCells === 3)) {
+    return true;
+  }
+  if (!gridArray[x][y] && aliveCells === 3) {
+    return true;
+  }
+  return false;
+};
+
+const prepareNextGridFrame = () => {
   for (let x = 0; x < 20; x++) {
     for (let y = 0; y < 20; y++) {
-      if (
-        gridArray[x][y].className === "alive" &&
-        (aliveCells === 2 || aliveCells === 3)
-      ) {
-        document.getElementById(`${x}-${y}`).className = "alive";
-      }
-      if (gridArray[x][y].className === "alive" && aliveCells > 3) {
-        document.getElementById(`${x}-${y}`).className = "alive";
-      }
-      if (gridArray[x][y].className === "dead" && aliveCells === 3) {
-        document.getElementById(`${x}-${y}`).className = "alive";
-      }
+      gridArrayNextFrame[x][y] = updateCell(x, y, checkCellsAround(x, y));
     }
   }
 };
 
-const aliveCells = checkCellsAround(10, 10);
-mainGameFunction(aliveCells);
+const copyGrid = () => {
+  for (let x = 0; x < 20; x++) {
+    for (let y = 0; y < 20; y++) {
+      gridArray[x][y] = gridArrayNextFrame[x][y];
+    }
+  }
+};
+
+const mainGame = () => {
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      prepareNextGridFrame();
+      copyGrid();
+    }, 1000);
+  }
+};
+
+mainGame();
