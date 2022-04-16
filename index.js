@@ -60,4 +60,24 @@ const checkCellsAround = (x, y) => {
   return cellsAroundCondition;
 };
 
-checkCellsAround();
+const mainGameFunction = (aliveCells) => {
+  for (let x = 0; x < 20; x++) {
+    for (let y = 0; y < 20; y++) {
+      if (
+        gridArray[x][y].className === "alive" &&
+        (aliveCells === 2 || aliveCells === 3)
+      ) {
+        document.getElementById(`${x}-${y}`).className = "alive";
+      }
+      if (gridArray[x][y].className === "alive" && aliveCells > 3) {
+        document.getElementById(`${x}-${y}`).className = "alive";
+      }
+      if (gridArray[x][y].className === "dead" && aliveCells === 3) {
+        document.getElementById(`${x}-${y}`).className = "alive";
+      }
+    }
+  }
+};
+
+const aliveCells = checkCellsAround(10, 10);
+mainGameFunction(aliveCells);
