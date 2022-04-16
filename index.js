@@ -33,33 +33,47 @@ const generateMatrixes = () => {
 };
 generateMatrixes();
 
-// Undefined cases!!!!!
-
 const checkCellsAround = (x, y) => {
   let cellsAroundCondition = 0;
-  if (gridArray[x - 1][y]) {
-    cellsAroundCondition++;
+  if (x !== 0 && y !== 0) {
+    if (gridArray[x - 1][y - 1]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x + 1][y]) {
-    cellsAroundCondition++;
+  if (x !== 0) {
+    if (gridArray[x - 1][y]) {
+      cellsAroundCondition++;
+    }
+    if (y !== 19) {
+      if (gridArray[x - 1][y + 1]) {
+        cellsAroundCondition++;
+      }
+    }
   }
-  if (gridArray[x - 1][y - 1]) {
-    cellsAroundCondition++;
+  if (y !== 0) {
+    if (gridArray[x][y - 1]) {
+      cellsAroundCondition++;
+    }
+    if (x !== 19) {
+      if (gridArray[x + 1][y - 1]) {
+        cellsAroundCondition++;
+      }
+    }
   }
-  if (gridArray[x - 1][y + 1]) {
-    cellsAroundCondition++;
+  if (x !== 19) {
+    if (gridArray[x + 1][y]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x][y - 1]) {
-    cellsAroundCondition++;
+  if (y !== 19) {
+    if (gridArray[x][y + 1]) {
+      cellsAroundCondition++;
+    }
   }
-  if (gridArray[x][y + 1]) {
-    cellsAroundCondition++;
-  }
-  if (gridArray[x + 1][y - 1]) {
-    cellsAroundCondition++;
-  }
-  if (gridArray[x + 1][y + 1]) {
-    cellsAroundCondition++;
+  if (x !== 19 && y !== 19) {
+    if (gridArray[x + 1][y + 1]) {
+      cellsAroundCondition++;
+    }
   }
 
   return cellsAroundCondition;
@@ -82,3 +96,22 @@ const prepareNextGridFrame = () => {
     }
   }
 };
+
+const copyGrid = () => {
+  for (let x = 0; x < 20; x++) {
+    for (let y = 0; y < 20; y++) {
+      gridArray[x][y] = gridArrayNextFrame[x][y];
+    }
+  }
+};
+
+const mainGame = () => {
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      prepareNextGridFrame();
+      copyGrid();
+    }, 1000);
+  }
+};
+
+mainGame();
