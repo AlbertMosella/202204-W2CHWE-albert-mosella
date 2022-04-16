@@ -14,8 +14,8 @@ table {
 }
 
 td {
-  height: 20px;
-  width: 20px;
+  height: 10px;
+  width: 10px;
   border: 1px solid black;
 }
 
@@ -23,4 +23,12 @@ td {
   height: 80px;
   width: 180px;
   margin: 10px;
+}
+
+@media (min-width: 600px) {
+  td {
+    height: 20px;
+    width: 20px;
+    border: 2px solid black;
+  }
 }
