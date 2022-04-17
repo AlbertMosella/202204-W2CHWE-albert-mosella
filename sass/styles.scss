@@ -1,5 +1,6 @@
-h1 {
-  color: green;
+* {
+  font-family: "Festive", cursive;
+  font-family: "Montserrat", sans-serif;
 }
 
 .body-container {
@@ -7,6 +8,11 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  color: green;
 }
 
 #grid-container {
@@ -15,7 +21,7 @@ h1 {
 }
 
 table {
-  background-color: lightblue;
+  background-color: lightgreen;
 }
 
 .dead {
@@ -23,6 +29,7 @@ table {
   width: 15px;
   border: 2px solid black;
   background-color: white;
+  border-radius: 15px;
 }
 
 .alive {
@@ -30,6 +37,7 @@ table {
   width: 15px;
   border: 2px solid black;
   background-color: green;
+  border-radius: 15px;
 }
 
 .button-container {
@@ -47,14 +55,10 @@ button {
   .alive {
     height: 20px;
     width: 20px;
-    border: 2px solid black;
-    background-color: green;
   }
   .dead {
     height: 20px;
     width: 20px;
-    border: 2px solid black;
-    background-color: white;
   }
   button {
     height: 50px;

@@ -22,15 +22,13 @@ const changeCellColor = (cellId, alive) => {
   }
 };
 
-const cellOnClick = () => {
+/* const cellOnClick = () => {
   const splitId = this.id.split("-");
   const x = splitId[0];
   const y = splitId[1];
   gridArray[x][y] = !gridArray[x][y];
   changeCellColor(this.id, gridArray[x][y]);
-};
-
-cellOnClick();
+}; */
 
 const generateGrid = () => {
   const gridRows = 20;
@@ -44,7 +42,7 @@ const generateGrid = () => {
       const cell = document.createElement("td");
       cell.setAttribute("id", `${i}-${j}`);
       cell.setAttribute("class", "dead");
-      cell.setAttribute("onClick", "cellOnClick(this.id)");
+      /* cell.setAttribute("onClick", "cellOnClick(this.id)"); */
 
       rows.appendChild(cell);
     }
