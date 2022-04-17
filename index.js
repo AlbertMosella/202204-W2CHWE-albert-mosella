@@ -7,17 +7,15 @@ const generateGrid = () => {
   for (let i = 0; i < gridRows; i++) {
     const rows = document.createElement("tr");
     for (let j = 0; j < gridcells; j++) {
-      const cells = document.createElement("td");
-      cells.setAttribute("id", `${i}-${j}`);
-      cells.setAttribute("class", "dead");
-      rows.appendChild(cells);
+      const cell = document.createElement("td");
+      cell.setAttribute("id", `${i}-${j}`);
+      cell.setAttribute("class", "cell dead");
+      rows.appendChild(cell);
     }
     grid.appendChild(rows);
   }
   gridContainer.appendChild(grid);
 };
-
-generateGrid();
 
 const gridArray = [];
 const gridArrayNextFrame = [];
@@ -114,6 +112,7 @@ const resetGrid = () => {
 };
 
 const mainGame = () => {
+  document.querySelector("#start-game").disabled = true;
   for (let i = 0; i < 10; i++) {
     setTimeout(() => {
       prepareNextGridFrame();
@@ -123,4 +122,32 @@ const mainGame = () => {
   }
 };
 
-mainGame();
+const changeCellColor = (cellId, alive) => {
+  const cellCondition = document.getElementById(cellId);
+  if (alive) {
+    cellCondition.setAttribute("class", "cell alive");
+  }
+  if (!alive) {
+    cellCondition.setAttribute("class", "cell dead");
+  }
+};
+
+const cellOnClick = (cellId) => {
+  const splitId = cellId.split("-");
+  const x = splitId[0];
+  const y = splitId[1];
+  gridArray[x][y] = !gridArray[x][y];
+  changeCellColor(cellId, gridArray[x][y]);
+};
+
+const activateButtons = () => {
+  const startButton = document.getElementById("start-game");
+  startButton.addEventListener("click", mainGame);
+  /* const stopButton = document.getElementById("end-game");
+  stopButton.addEventListener(); */
+  const cells = document.querySelector("td");
+  cells.addEventListener("click", cellOnClick(cells.id));
+};
+
+generateGrid();
+activateButtons();
