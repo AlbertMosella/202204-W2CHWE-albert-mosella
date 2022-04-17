@@ -105,11 +105,20 @@ const copyGrid = () => {
   }
 };
 
+const resetGrid = () => {
+  for (let x = 0; x < 20; x++) {
+    for (let y = 0; y < 20; y++) {
+      gridArrayNextFrame[x][y] = false;
+    }
+  }
+};
+
 const mainGame = () => {
   for (let i = 0; i < 10; i++) {
     setTimeout(() => {
       prepareNextGridFrame();
       copyGrid();
+      resetGrid();
     }, 1000);
   }
 };
