@@ -13,22 +13,13 @@ const generateMatrixes = () => {
 generateMatrixes();
 
 const changeCellColor = (cellId, alive) => {
-  const cellCondition = document.getElementById(cellId);
   if (alive) {
-    cellCondition.setAttribute("class", "alive");
+    document.getElementById(cellId).className = "alive";
   }
   if (!alive) {
-    cellCondition.setAttribute("class", "dead");
+    document.getElementById(cellId).className = "dead";
   }
 };
-
-/* const cellOnClick = () => {
-  const splitId = this.id.split("-");
-  const x = splitId[0];
-  const y = splitId[1];
-  gridArray[x][y] = !gridArray[x][y];
-  changeCellColor(this.id, gridArray[x][y]);
-}; */
 
 const generateGrid = () => {
   const gridRows = 20;
@@ -42,13 +33,28 @@ const generateGrid = () => {
       const cell = document.createElement("td");
       cell.setAttribute("id", `${i}-${j}`);
       cell.setAttribute("class", "dead");
-      /* cell.setAttribute("onClick", "cellOnClick(this.id)"); */
 
       rows.appendChild(cell);
     }
     grid.appendChild(rows);
   }
   gridContainer.appendChild(grid);
+};
+
+const initialCellClick = () => {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
+      document.getElementById(`${i}-${j}`).addEventListener("click", () => {
+        if (document.getElementById(`${i}-${j}`).className === "alive") {
+          document.getElementById(`${i}-${j}`).className = "dead";
+          gridArray[i][j] = false;
+        } else if (document.getElementById(`${i}-${j}`).className === "dead") {
+          document.getElementById(`${i}-${j}`).className = "alive";
+          gridArray[i][j] = true;
+        }
+      });
+    }
+  }
 };
 
 const checkCellsAround = (x, y) => {
@@ -97,7 +103,7 @@ const checkCellsAround = (x, y) => {
   return cellsAroundCondition;
 };
 
-const updateCell = (x, y, aliveCells) => {
+const findCellNewCondition = (x, y, aliveCells) => {
   if (gridArray[x][y] && (aliveCells === 2 || aliveCells === 3)) {
     return true;
   }
@@ -110,7 +116,11 @@ const updateCell = (x, y, aliveCells) => {
 const prepareNextGridFrame = () => {
   for (let x = 0; x < 20; x++) {
     for (let y = 0; y < 20; y++) {
-      gridArrayNextFrame[x][y] = updateCell(x, y, checkCellsAround(x, y));
+      gridArrayNextFrame[x][y] = findCellNewCondition(
+        x,
+        y,
+        checkCellsAround(x, y)
+      );
     }
   }
 };
@@ -127,28 +137,40 @@ const copyGrid = () => {
 const resetGrid = () => {
   for (let x = 0; x < 20; x++) {
     for (let y = 0; y < 20; y++) {
-      gridArrayNextFrame[x][y] = false;
+      gridArray[x][y] = false;
+      changeCellColor(`${x}-${y}`, false);
     }
   }
+  document.querySelector("#start-game").disabled = false;
+};
+
+let timer;
+
+const intervalTimer = () => {
+  timer = window.setInterval(() => {
+    prepareNextGridFrame();
+    copyGrid();
+  }, 1000);
+};
+
+const intervalTimerStop = () => {
+  clearInterval(timer);
 };
 
 const mainGame = () => {
   document.querySelector("#start-game").disabled = true;
-  for (let i = 0; i < 10; i++) {
-    setTimeout(() => {
-      prepareNextGridFrame();
-      copyGrid();
-      resetGrid();
-    }, 1000);
-  }
+  intervalTimer();
 };
 
 const activateButtons = () => {
   const startButton = document.getElementById("start-game");
   startButton.addEventListener("click", mainGame);
-  /* const stopButton = document.getElementById("end-game");
-  stopButton.addEventListener(); */
+  const stopButton = document.getElementById("end-game");
+  stopButton.addEventListener("click", intervalTimerStop);
+  const clearButton = document.getElementById("clear");
+  clearButton.addEventListener("click", resetGrid);
 };
 
 generateGrid();
 activateButtons();
+initialCellClick();
